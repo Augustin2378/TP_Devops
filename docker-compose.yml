@@ -1,0 +1,45 @@
+services:
+  backend:
+    build:
+      context: ./Back-end
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    networks:
+      - app-network
+    depends_on:
+      - database
+    container_name: back-end-container
+
+
+
+  database:
+    build:
+      context: ./Database
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    container_name: db-container
+
+
+
+  http:
+    build:
+      context: ./Front-end
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - backend
+    container_name: front-end-container
+
+
+networks:
+  app-network:
+
+
